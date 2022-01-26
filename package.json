@@ -1,0 +1,17 @@
+{
+  "name": "sgi-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Paulo Vitor",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^14.3.2",
+    "express": "^4.17.2",
+    "mysql": "^2.18.1",
+    "stripe": "^8.200.0"
+  }
+}
