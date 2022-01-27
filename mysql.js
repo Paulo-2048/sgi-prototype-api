@@ -6,7 +6,8 @@ var pool = mysql.createPool({
     'password': process.env.PS_PASS,
     'database': process.env.PS_DATABASE,
     'host': process.env.PS_HOST,
-    'port': 3306
+    'port': 3306,
+    'ssl': true
 })
 
 exports.pool = pool
