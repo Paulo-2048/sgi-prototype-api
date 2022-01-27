@@ -17,7 +17,7 @@ router.post('/', (req, res, next) => {
     }
 
     mysql.getConnection((err, conn) => {
-        console.log(mysql, conn)
+        console.log(mysql, mysql.getConnection(), conn)
         conn.query(
             'INSERT INTO user (nome, sector, cpf, phone, email, password, acess, token) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
             [user.name, user.sector, user.cpf, user.phone, user.email, user.password, user.acess, user.token],
