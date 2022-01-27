@@ -16,13 +16,13 @@ router.post('/', (req, res, next) => {
         token: req.body.token,
     }
 
-    mysql.getConnection((err, conn) => {
-        console.log(mysql, mysql.getConnection(), conn)
-        conn.query(
+    mysql.getConnection((err, con) => {
+        console.log(mysql, mysql.getconnection(), con)
+        con.query(
             'INSERT INTO user (nome, sector, cpf, phone, email, password, acess, token) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
             [user.name, user.sector, user.cpf, user.phone, user.email, user.password, user.acess, user.token],
             (err, result, field) => {
-                conn.release()
+                con.release()
 
                 if (err) {
                     return res.status(500).send({
@@ -37,6 +37,9 @@ router.post('/', (req, res, next) => {
                 })
             }
         )
+        if(err){
+            console.log('Err Getconnection:', err)
+        }
     })
 })
 
