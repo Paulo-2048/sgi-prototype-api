@@ -13,3 +13,6 @@ app.get('/', (req, res) => {
         data: 'Get OK'
     })
 })
+
+const PORT = process.env.PORT || 8080;
+app.listen(PORT)
