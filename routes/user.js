@@ -17,7 +17,7 @@ router.post('/', (req, res, next) => {
     }
 
     mysql.getConnection((err, con) => {
-        console.log(mysql, mysql.getconnection(), con)
+        console.log(mysql, mysql.getConnection(), con)
         if(err){
             console.log('Err Getconnection:', err)
         }
