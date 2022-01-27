@@ -50,7 +50,7 @@ router.post('/', (req, res) => {
 
                 res.status(201).send({
                     data: 'User insert OK',
-                    idUser: result.insertID
+                    idUser: result.idcode
                 })
             }
         )}
@@ -62,7 +62,7 @@ router.get('/:id', (req, res) => {
     mysql.getConnection((err, con) => {
         if(err) {return res.status(500).send({err: err})} 
         con.query(
-            'SELECT * FROM user where idcode - ?',
+            'SELECT * FROM user where idcode = ?',
             [req.params.id],
             (err, result) => {
                 con.release()
