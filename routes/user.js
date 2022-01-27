@@ -20,7 +20,6 @@ router.post('/', (req, res, next) => {
         if(err){
             console.log('Err Getconnection:', err)
         } else {
-            console.log(user)
             con.query(
             'INSERT INTO user (name, sector, cpf, phone, email, password, acess, token) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
             [user.name, user.sector, user.cpf, user.phone, user.email, user.password, user.acess, user.token],
@@ -39,10 +38,7 @@ router.post('/', (req, res, next) => {
                     idUser: result.insertID
                 })
             }
-        )
-        }
-        
-        
+        )}
     })
 })
 
