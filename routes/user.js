@@ -4,6 +4,33 @@ const router = express.Router()
 const mysql = require('../mysql').pool
 
 
+router.get('/', (req, res) => {
+    mysql.getConnection((err, con) => {
+        if(err){
+            console.log('Err Connection:', err)
+        } else {
+            con.query(
+            'SELECT * FROM user',
+            (err, result, field) => {
+                con.release()
+
+                if (err) {
+                    return res.status(500).send({
+                        error: err,
+                        response: null
+                    })
+                }
+
+                res.status(201).send({
+                    field: field,
+                    result: result
+                })
+            }
+        )}
+    })
+})
+
+
 router.post('/', (req, res, next) => {
     let user = {
         name: req.body.name,
@@ -18,7 +45,7 @@ router.post('/', (req, res, next) => {
 
     mysql.getConnection((err, con) => {
         if(err){
-            console.log('Err Getconnection:', err)
+            console.log('Err Connection:', err)
         } else {
             con.query(
             'INSERT INTO user (name, sector, cpf, phone, email, password, acess, token) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
@@ -42,11 +69,6 @@ router.post('/', (req, res, next) => {
     })
 })
 
-router.get('/', (req, res) => {
-    res.status(201).send({
-        data: 'Get User OK'
-    })
-})
 
 
 module.exports = router
