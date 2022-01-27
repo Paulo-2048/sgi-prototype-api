@@ -12,11 +12,12 @@ router.post('/', (req, res, next) => {
         phone: req.body.phone,
         email: req.body.email,
         password: req.body.password,
-        acess: req.body.token,
+        acess: req.body.acess,
+        token: req.body.token,
     }
 
     mysql.getConnection((err, con) => {
-        console.query(
+        con.query(
             'INSERT INTO user (nome, sector, cpf, phone, email, password, acess, token) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
             [user.name, user.sector, user.cpf, user.phone, user.email, user.password, user.acess, user.token],
             (err, result, field) => {
