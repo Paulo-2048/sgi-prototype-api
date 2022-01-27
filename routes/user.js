@@ -6,32 +6,20 @@ const mysql = require('../mysql').pool
 
 router.get('/', (req, res) => {
     mysql.getConnection((err, con) => {
-        if(err){
-            console.log('Err Connection:', err)
-        } else {
-            con.query(
+        if(err) {return res.status(500).send({err: err})} 
+        con.query(
             'SELECT * FROM user',
-            (err, result, field) => {
+            (err, result) => {
                 con.release()
-
-                if (err) {
-                    return res.status(500).send({
-                        error: err,
-                        response: null
-                    })
-                }
-
-                res.status(201).send({
-                    field: field,
-                    result: result
-                })
+                if(err) {return res.status(500).send({err: err})} 
+                return res.status(200).send({data: result})
             }
-        )}
+        )
     })
 })
 
 
-router.post('/', (req, res, next) => {
+router.post('/', (req, res) => {
     let user = {
         name: req.body.name,
         sector: req.body.sector,
@@ -70,5 +58,19 @@ router.post('/', (req, res, next) => {
 })
 
 
+router.get('/:id', (req, res) => {
+    mysql.getConnection((err, con) => {
+        if(err) {return res.status(500).send({err: err})} 
+        con.query(
+            'SELECT * FROM user where idcode - ?',
+            [req.params.id],
+            (err, result) => {
+                con.release()
+                if(err) {return res.status(500).send({err: err})} 
+                return res.status(200).send({data: result})
+            }
+        )
+    })
+})
 
 module.exports = router
