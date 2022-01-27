@@ -7,3 +7,9 @@ const routUser = require('./routes/user')
 // Other routs down
 
 app.use('/user', routUser);
+
+app.get('/', (req, res) => {
+    res.status(201).send({
+        data: 'Get OK'
+    })
+})

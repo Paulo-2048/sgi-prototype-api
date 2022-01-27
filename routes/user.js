@@ -38,5 +38,11 @@ router.post('/', (req, res, next) => {
     })
 })
 
+router.get('/', (req, res) => {
+    res.status(201).send({
+        data: 'Get User OK'
+    })
+})
+
 
 module.exports = router
