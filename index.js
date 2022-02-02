@@ -4,11 +4,11 @@ const app = express()
 const cors = require("cors")
 const stripe = require("stripe")(process.env.STRIPE_SK)
 
+app.use(cors({ origin: "*" }))
+app.use(express.json({ extended: false }))
+
 const routUser = require("./routes/user")
 // Other routs down
-
-app.use(express.json({ extended: false }))
-app.use(cors())
 
 app.use("/user", routUser)
 
