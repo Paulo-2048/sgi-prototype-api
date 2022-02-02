@@ -9,6 +9,7 @@
   "author": "Paulo Vitor",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^14.3.2",
     "express": "^4.17.2",
     "mysql": "^2.18.1",
