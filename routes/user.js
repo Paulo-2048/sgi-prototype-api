@@ -1,6 +1,7 @@
 require("dotenv/config")
 const express = require("express")
 const router = express.Router()
+
 const mysql = require("../mysql").pool
 
 router.get("/", (req, res) => {
@@ -43,9 +44,9 @@ router.post("/", (req, res) => {
           user.cpf,
           user.phone,
           user.email,
-          user.password,
+          SHA(user.password),
           user.acess,
-          user.token,
+          SHA(user.token),
         ],
         (err, result, field) => {
           con.release()
@@ -75,6 +76,25 @@ router.get("/:id", (req, res) => {
     con.query(
       "SELECT * FROM user where idcode = ?",
       [req.params.id],
+      (err, result) => {
+        con.release()
+        if (err) {
+          return res.status(500).send({ err: err })
+        }
+        return res.status(200).send({ data: result })
+      }
+    )
+  })
+})
+
+router.post("/login", (req, res) => {
+  mysql.getConnection((err, con) => {
+    if (err) {
+      return res.status(500).send({ err: err })
+    }
+    con.query(
+      "SELECT * FROM user WHERE email = ? && password = SHA(?)",
+      [req.body.email, req.body.password],
       (err, result) => {
         con.release()
         if (err) {
