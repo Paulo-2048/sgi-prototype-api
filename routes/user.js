@@ -37,16 +37,16 @@ router.post("/", (req, res) => {
       console.log("Err Connection:", err)
     } else {
       con.query(
-        "INSERT INTO user (name, sector, cpf, phone, email, password, acess, token) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO user (name, sector, cpf, phone, email, password, acess, token) VALUES (?, ?, ?, ?, ?, SHA(?), ?, ?)",
         [
           user.name,
           user.sector,
           user.cpf,
           user.phone,
           user.email,
-          SHA(user.password),
+          user.password,
           user.acess,
-          SHA(user.token),
+          user.token,
         ],
         (err, result, field) => {
           con.release()
