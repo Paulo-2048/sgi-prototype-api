@@ -97,6 +97,7 @@ router.post("/login", (req, res) => {
       [req.body.email, req.body.password],
       (err, result) => {
         con.release()
+        console.log(req.body.email, req.body.password, result)
         if (err) {
           return res.status(500).send({ err: err })
         }
