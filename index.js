@@ -14,7 +14,7 @@ app.use("/user", routUser)
 
 app.get("/", (req, res) => {
   res.status(201).send({
-    data: "Get OK",
+    data: "Get OK (In progress)",
   })
 })
 
