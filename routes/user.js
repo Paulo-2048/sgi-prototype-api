@@ -97,11 +97,17 @@ router.post("/login", (req, res) => {
       [req.body.email, req.body.password],
       (err, result) => {
         con.release()
-        console.log(req.body.email, req.body.password, result)
+        console.log(
+          req.body.email,
+          req.body.password,
+          result,
+          typeof result,
+          typeof result
+        )
         if (err) {
           return res.status(500).send({ err: err })
         }
-        if (typeof result == 'undefined') {
+        if (typeof result == "undefined") {
           return res.status(500).send({ err: "Not Found" })
         }
         return res.status(200).send({ data: result })
