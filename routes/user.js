@@ -101,7 +101,7 @@ router.post("/login", (req, res) => {
         if (err) {
           return res.status(500).send({ err: err })
         }
-        if (result == []) {
+        if (typeof result == 'undefined') {
           return res.status(500).send({ err: "Not Found" })
         }
         return res.status(200).send({ data: result })
