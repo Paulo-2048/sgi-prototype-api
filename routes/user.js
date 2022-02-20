@@ -93,7 +93,7 @@ router.post("/login", (req, res) => {
       return res.status(500).send({ err: err })
     }
     con.query(
-      "SELECT * FROM user WHERE email = ? && password = ?",
+      "SELECT * FROM user WHERE email = ? && password = SHA(?)",
       [req.body.email, req.body.password],
       (err, result) => {
         con.release()
