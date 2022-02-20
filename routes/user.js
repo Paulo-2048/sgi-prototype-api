@@ -37,7 +37,7 @@ router.post("/", (req, res) => {
       console.log("Err Connection:", err)
     } else {
       con.query(
-        "INSERT INTO user (name, sector, cpf, phone, email, password, acess, token) VALUES (?, ?, ?, ?, ?, SHA(?), ?, ?)",
+        "INSERT INTO user (name, sector, cpf, phone, email, password, acess, token) VALUES (?, ?, ?, ?, ?, SHA(?), COALESCE(?, default), ?)",
         [
           user.name,
           user.sector,
