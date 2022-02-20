@@ -87,7 +87,7 @@ router.get("/:id", (req, res) => {
   })
 })
 
-router.get("rem/:id", (req, res) => {
+router.get("/rem/:id", (req, res) => {
   mysql.getConnection((err, con) => {
     if (err) {
       return res.status(500).send({ err: err })
