@@ -37,7 +37,7 @@ router.post("/", (req, res) => {
       console.log("Err Connection:", err)
     } else {
       con.query(
-        "INSERT INTO user (name, sector, cpf, phone, email, password, acess, token) VALUES (?, ?, ?, ?, ?, SHA(?), ?, ?)",
+        "INSERT INTO user (name, sector, cpf, phone, email, password, acess, token) VALUES (?, ?, ?, ?, ?, SHA(?), ?, SHA(?)",
         [
           user.name,
           user.sector,
@@ -93,17 +93,10 @@ router.post("/login", (req, res) => {
       return res.status(500).send({ err: err })
     }
     con.query(
-      "SELECT * FROM user WHERE email = ? && password = ?",
+      "SELECT * FROM user WHERE email = ? && password = SHA(?)",
       [req.body.email, req.body.password],
       (err, result) => {
         con.release()
-        console.log(
-          req.body.email,
-          req.body.password,
-          result,
-          typeof result[0],
-          typeof result
-        )
         if (err) {
           return res.status(500).send({ err: err })
         }
@@ -111,6 +104,27 @@ router.post("/login", (req, res) => {
           return res.status(500).send({ err: "Not Found" })
         }
         return res.status(200).send({ data: result })
+      }
+    )
+  })
+})
+
+router.post("/update/:id", (req, res) => {
+  mysql.getConnection((err, con) => {
+    if (err) {
+      return res.status(500).send({ err: err })
+    }
+    con.query(
+      "UPDATE USER SET ? = ? WHERE IDCODE=?",
+      [req.body.column, req.body.value, req.params.id],
+      (err, result) => {
+        con.release()
+        if (err) {
+          return res.status(500).send({ err: err })
+        }
+        return res
+          .status(200)
+          .send({ msg: "Atualizado com Sucesso", data: result })
       }
     )
   })
