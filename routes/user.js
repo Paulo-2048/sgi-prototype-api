@@ -133,17 +133,16 @@ router.post("/update/:id", (req, res) => {
     if (err) {
       return res.status(500).send({ err: err })
     }
-    console.log()
+    const column = req.body.column.replace(/\"/g, "").replace(/\'/g, "")
     con.query(
-      "UPDATE USER SET ? = ? WHERE IDCODE=?",
-      [req.body.column.replace(/\"/g, ""), req.body.value, req.params.id],
+      "UPDATE USER SET ? =",
+      req.body.value,
+      "WHERE IDCODE=?",
+      [column, req.params.id],
       (err, result) => {
         con.release()
         if (err) {
-          return res.status(500).send({
-            err: err,
-            param: [req.body.column, req.body.value, req.params.id],
-          })
+          return res.status(500).send({ err: err })
         }
         return res
           .status(200)
