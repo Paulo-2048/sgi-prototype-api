@@ -37,7 +37,7 @@ router.post("/", (req, res) => {
       console.log("Err Connection:", err)
     } else {
       con.query(
-        "INSERT INTO user (name, sector, cpf, phone, email, password, acess, token) VALUES (?, ?, ?, ?, ?, SHA(?), ?, SHA(?)",
+        "INSERT INTO user (name, sector, cpf, phone, email, password, acess, token) VALUES (?, ?, ?, ?, ?, SHA(?), IFNULL(?, 'NA'), ?)",
         [
           user.name,
           user.sector,
@@ -75,6 +75,25 @@ router.get("/:id", (req, res) => {
     }
     con.query(
       "SELECT * FROM user where idcode = ?",
+      [req.params.id],
+      (err, result) => {
+        con.release()
+        if (err) {
+          return res.status(500).send({ err: err })
+        }
+        return res.status(200).send({ data: result })
+      }
+    )
+  })
+})
+
+router.get("/rem/:id", (req, res) => {
+  mysql.getConnection((err, con) => {
+    if (err) {
+      return res.status(500).send({ err: err })
+    }
+    con.query(
+      "DELETE FROM user where idcode = ?",
       [req.params.id],
       (err, result) => {
         con.release()
