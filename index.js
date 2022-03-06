@@ -9,10 +9,12 @@ app.use(express.json({ extended: false }))
 
 const routUser = require("./routes/user")
 const routItem = require("./routes/item")
+const routCust = require("./routes/cust")
 // Other routs down
 
 app.use("/user", routUser)
 app.use("/item", routItem)
+app.use("/cust", routCust)
 
 app.get("/", (req, res) => {
   res.status(201).send({
