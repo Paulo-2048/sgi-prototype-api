@@ -9,7 +9,7 @@ router.get("/", (req, res) => {
     if (err) {
       return res.status(500).send({ err: err })
     }
-    con.query("SELECT * FROM user", (err, result) => {
+    con.query("SELECT * FROM work_item", (err, result) => {
       con.release()
 
       if (err) {
@@ -21,15 +21,12 @@ router.get("/", (req, res) => {
 })
 
 router.post("/", (req, res) => {
-  let user = {
+  let item = {
     name: req.body.name,
-    sector: req.body.sector,
-    cpf: req.body.cpf,
-    phone: req.body.phone,
-    email: req.body.email,
-    password: req.body.password,
-    acess: req.body.acess,
-    token: req.body.token,
+    category: req.body.category,
+    description: req.body.description,
+    price: req.body.price,
+    client: req.body.client,
   }
 
   mysql.getConnection((err, con) => {
@@ -37,17 +34,8 @@ router.post("/", (req, res) => {
       console.log("Err Connection:", err)
     } else {
       con.query(
-        "INSERT INTO user (name, sector, cpf, phone, email, password, acess, token) VALUES (?, ?, ?, ?, ?, SHA(?), IFNULL(?, 'NA'), ?)",
-        [
-          user.name,
-          user.sector,
-          user.cpf,
-          user.phone,
-          user.email,
-          user.password,
-          user.acess,
-          user.token,
-        ],
+        "INSERT INTO work_item (product_name, category, description, price, client, data) VALUES (?, ?, ?, ?, ?, NOW())",
+        [item.name, item.category, item.description, item.price, item.client],
         (err, result, field) => {
           con.release()
 
@@ -59,8 +47,7 @@ router.post("/", (req, res) => {
           }
 
           res.status(201).send({
-            data: "User insert OK",
-            idUser: result.idcode,
+            data: "Item post OK",
           })
         }
       )
@@ -74,7 +61,7 @@ router.get("/:id", (req, res) => {
       return res.status(500).send({ err: err })
     }
     con.query(
-      "SELECT * FROM user where idcode = ?",
+      "SELECT * FROM work_item where idcode = ?",
       [req.params.id],
       (err, result) => {
         con.release()
@@ -93,34 +80,12 @@ router.get("/rem/:id", (req, res) => {
       return res.status(500).send({ err: err })
     }
     con.query(
-      "DELETE FROM user where idcode = ?",
+      "DELETE FROM work_item where idcode = ?",
       [req.params.id],
       (err, result) => {
         con.release()
         if (err) {
           return res.status(500).send({ err: err })
-        }
-        return res.status(200).send({ data: result })
-      }
-    )
-  })
-})
-
-router.post("/login", (req, res) => {
-  mysql.getConnection((err, con) => {
-    if (err) {
-      return res.status(500).send({ err: err })
-    }
-    con.query(
-      "SELECT * FROM user WHERE email = ? && password = SHA(?)",
-      [req.body.email, req.body.password],
-      (err, result) => {
-        con.release()
-        if (err) {
-          return res.status(500).send({ err: err })
-        }
-        if (typeof result[0] == "undefined") {
-          return res.status(500).send({ err: "Not Found" })
         }
         return res.status(200).send({ data: result })
       }
@@ -134,7 +99,7 @@ router.post("/update/:id", (req, res) => {
       return res.status(500).send({ err: err })
     }
     con.query(
-      "UPDATE user SET " + req.body.column + " = ? WHERE IDCODE=?",
+      "UPDATE work_item SET " + req.body.column + " = ? WHERE IDCODE=?",
       [req.body.value, req.params.id],
       (err, result) => {
         con.release()

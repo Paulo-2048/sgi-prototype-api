@@ -8,9 +8,11 @@ app.use(cors({ origin: "*" }))
 app.use(express.json({ extended: false }))
 
 const routUser = require("./routes/user")
+const routItem = require("./routes/item")
 // Other routs down
 
 app.use("/user", routUser)
+app.use("/item", routItem)
 
 app.get("/", (req, res) => {
   res.status(201).send({
