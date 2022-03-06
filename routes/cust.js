@@ -76,6 +76,9 @@ router.get("/:id", (req, res) => {
         if (err) {
           return res.status(500).send({ err: err })
         }
+        if (typeof result[0] == "undefined") {
+          return res.status(500).send({ err: "Not Found" })
+        }
         return res.status(200).send({ data: result })
       }
     )
